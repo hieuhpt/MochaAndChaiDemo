@@ -1,0 +1,21 @@
+{
+  "name": "book-crud",
+  "version": "1.0.0",
+  "description": "book crud",
+  "main": "index.js",
+  "scripts": {
+    "test": "node node_modules/.bin/mocha server/test/book-table.test.js"
+  },
+  "keywords": [
+    "crud"
+  ],
+  "author": "hieuhpt",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3"
+  }
+}
