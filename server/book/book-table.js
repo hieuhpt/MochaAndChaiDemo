@@ -1,3 +1,4 @@
+var Book = require('./book');
 var BookTable = function (bookMongoDBCollection) {
     this.collection = bookMongoDBCollection;
 };
@@ -26,10 +27,22 @@ BookTable.prototype.edit = function (book) {
 };
 
 BookTable.prototype.search = function (condition) {
-    return this.collection.find(condition).toArray()
-        .then(function (booksSearched) {
-            return booksSearched;
-        });
+    return this.collection.find(condition.toMongoCondition()).toArray();
+};
+
+BookTable.prototype.detail = function (id) {
+    return this.collection.find({_id: id}).limit(1).toArray().then(function (foundBooks) {
+        if (!foundBooks.length) {
+            throw new Error('Book not found');
+        }
+        return foundBooks[0];
+    }).then(function (foundBook) {
+        return new Book()
+            .setAuthor(foundBook.author)
+            .setName(foundBook.name)
+            .setId(foundBook._id)
+            .setCategory(foundBook.category);
+    });
 };
 
 BookTable.prototype.delete = function (bookId) {

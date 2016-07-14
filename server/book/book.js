@@ -1,4 +1,5 @@
-var Book = function () {};
+var Book = function () {
+};
 
 
 Book.prototype.setId = function (id) {
@@ -45,6 +46,12 @@ Book.prototype.toJSON = function () {
         category: this.getCategory()
     };
 };
-    
+
+Book.makeFromQuery = function (query) {
+    var book = new Book();
+    book.setName(query.name).setAuthor(query.author).setCategory(query.category);
+    return book;
+};
+
 module.exports = Book;
 
