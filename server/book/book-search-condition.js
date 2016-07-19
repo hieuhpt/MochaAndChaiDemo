@@ -4,7 +4,7 @@ var BookSearchCondition = function () {
 BookSearchCondition.prototype.searchData = {};
 
 BookSearchCondition.prototype.andHaveId = function (id) {
-    if (name) {
+    if (id) {
         this.searchData.id = id;
     }
     return this;
