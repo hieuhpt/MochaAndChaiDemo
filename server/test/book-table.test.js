@@ -12,8 +12,9 @@ describe('Do test book table', function () {
     beforeEach(function (done) {
 
         var MongoClient = require('mongodb').MongoClient;
-        MongoClient.connect('mongodb://localhost:27017/test', function (error, connection) {
-            bookTable = new BookTable(connection.collection('books'));
+        MongoClient.connect('mongodb://localhost:27017/test', { useNewUrlParser: true }, function (error, connection) {
+            var db = connection.db('test');
+            bookTable = new BookTable(db.collection('books'));
             book = new Book();
             book.setAuthor('Some author')
                 .setName('Some book name')
@@ -64,7 +65,7 @@ describe('Do test book table', function () {
     it('do search book by name and books are searched are correct with condition', function (done) {
         var searchName = 'Some book name';
         var bookSearchCondition = new BookSearchCondition();
-        var searchBooksHaveSomeName = bookSearchCondition.haveName(searchName).toMongoCondition();
+        var searchBooksHaveSomeName = bookSearchCondition.haveName(searchName);
 
         bookTable.search(searchBooksHaveSomeName).then(function (searchedBooks) {
             for (var i = 0; i < searchedBooks.length; i++) {
@@ -86,7 +87,7 @@ describe('Do test book table', function () {
         var searchBooksConditions = bookSearchConditions
             .haveName(someName)
             .haveAuthor(someAuthor)
-            .haveCategory(someCategory).toMongoCondition();
+            .haveCategory(someCategory);
 
         var book2 = new Book();
         book2.setName(someName);
